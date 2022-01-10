@@ -58,6 +58,16 @@ class JpaArtikelRepositoryTest extends AbstractTransactionalJUnit4SpringContextT
                 .isSortedAccordingTo(String::compareToIgnoreCase);
     }
 
+    @Test
+    void verhoogAllePrijzen() {
+        /* eerste test, we krijgen het aantal gewijzigde records terug, dus we kijken of het aantal gewijzigde records
+        * gelijk is aan het totaal aantal*/
+        assertThat(repository.verhoogAllePrijzen(BigDecimal.TEN))
+                .isEqualTo(countRowsInTable(ARTIKELS));
+        /*Nu gaan we checken dat ons testartikel met 10% gestegen is in verkoopprijs*/
+        assertThat(countRowsInTableWhere(ARTIKELS, "verkoopprijs = 3.3 and id = " + idVanTestArtikel())).isOne();
+    }
+
 
     private long idVanTestArtikel() {
         return jdbcTemplate.queryForObject(

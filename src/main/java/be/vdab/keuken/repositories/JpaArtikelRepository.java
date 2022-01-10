@@ -4,6 +4,7 @@ import be.vdab.keuken.domain.Artikel;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,5 +30,12 @@ public class JpaArtikelRepository implements ArtikelRepository{
         return manager.createQuery("select d.naam from Artikel d where d.naam like :string", String.class)
                 .setParameter("string", '%' + string + '%')
                 .getResultList();
+    }
+
+    @Override
+    public int verhoogAllePrijzen(BigDecimal percentage) {
+        return manager.createNamedQuery("Artikel.verhoogAllePrijzen")
+                .setParameter("percentage", percentage)
+                .executeUpdate();
     }
 }
