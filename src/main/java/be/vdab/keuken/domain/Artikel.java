@@ -6,8 +6,9 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name="artikels")
-
-public class Artikel {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "soort")
+public abstract class Artikel {
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id private long id;
     private String naam;
     private BigDecimal aankoopprijs;

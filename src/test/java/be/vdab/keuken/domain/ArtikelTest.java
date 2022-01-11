@@ -10,29 +10,39 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ArtikelTest {
     private final static BigDecimal VERKOOPPRIJS = BigDecimal.TEN;
-    private Artikel artikelEen;
+    private FoodArtikel foodArtikel;
+    private NonFoodArtikel nonFoodArtikel;
 
     @BeforeEach
     void beforeEach() {
-        artikelEen = new Artikel("test", BigDecimal.ONE, VERKOOPPRIJS);
+        foodArtikel = new FoodArtikel("testFoodArtikel", BigDecimal.ONE, BigDecimal.TEN, 10);
+        nonFoodArtikel = new NonFoodArtikel("testNonFoodArtikel", BigDecimal.ONE, BigDecimal.TEN, 10);
     }
 
     @Test
     void verhoogVerkoopPrijs() {
-        artikelEen.verhoogVerkoopPrijs(BigDecimal.ONE);
-        assertThat(artikelEen.getVerkoopprijs()).isEqualByComparingTo("11");
+        foodArtikel.verhoogVerkoopPrijs(BigDecimal.ONE);
+        assertThat(foodArtikel.getVerkoopprijs()).isEqualByComparingTo("11");
+        nonFoodArtikel.verhoogVerkoopPrijs(BigDecimal.ONE);
+        assertThat(nonFoodArtikel.getVerkoopprijs()).isEqualByComparingTo("11");
     }
 
     @Test
     void verhoogVerkoopPrijsMet0ofNegatiefGetalMislukt() {
         assertThatIllegalArgumentException().isThrownBy(
-                ()->artikelEen.verhoogVerkoopPrijs(BigDecimal.ZERO));
+                ()->foodArtikel.verhoogVerkoopPrijs(BigDecimal.ZERO));
         assertThatIllegalArgumentException().isThrownBy(
-                ()->artikelEen.verhoogVerkoopPrijs(BigDecimal.valueOf(-1)));
+                ()->foodArtikel.verhoogVerkoopPrijs(BigDecimal.valueOf(-1)));
+        assertThatIllegalArgumentException().isThrownBy(
+                ()->nonFoodArtikel.verhoogVerkoopPrijs(BigDecimal.ZERO));
+        assertThatIllegalArgumentException().isThrownBy(
+                ()->nonFoodArtikel.verhoogVerkoopPrijs(BigDecimal.valueOf(-1)));
     }
     @Test
     void verhoogVerkoopPrijsMetNullMislukt() {
         assertThatNullPointerException().isThrownBy(
-                ()-> artikelEen.verhoogVerkoopPrijs(null));
+                ()-> foodArtikel.verhoogVerkoopPrijs(null));
+        assertThatNullPointerException().isThrownBy(
+                ()-> nonFoodArtikel.verhoogVerkoopPrijs(null));
     }
 }

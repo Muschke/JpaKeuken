@@ -1,6 +1,8 @@
 package be.vdab.keuken.repositories;
 
 import be.vdab.keuken.domain.Artikel;
+import be.vdab.keuken.domain.FoodArtikel;
+import be.vdab.keuken.domain.NonFoodArtikel;
 
 import java.math.BigDecimal;
 import java.util.List;
