@@ -1,10 +1,7 @@
-insert into artikels(naam, aankoopprijs, verkoopprijs, houdbaarheid, garantie, soort) values
-    ('testFoodArtikel', 1.5, 3, 10, null, 'F'),
-    ('testNonFoodArtikel', 1.5, 3, null, 10, 'NF');
+insert into artikels(naam, aankoopprijs, verkoopprijs, houdbaarheid, garantie, soort, artikelgroepId) values
+('testfood', 100, 120, 7, null, 'F',(select id from artikelgroepen where naam = 'test')),
+('testnonfood', 100, 120, null, 30, 'NF',(select id from artikelgroepen where naam = 'test'));
 
 
-insert into kortingen(artikelid, vanafAantal, percentage) values
-    ((select id from artikels where naam = 'testFoodArtikel'), 1, 10);
-
-insert into kortingen(artikelid, vanafAantal, percentage) values
-    ((select id from artikels where naam = 'testNonFoodArtikel'), 1, 10);
+insert into kortingen(artikelId, vanafAantal, percentage) values
+    ((select id from artikels where naam = 'testfood'), 1, 10);
