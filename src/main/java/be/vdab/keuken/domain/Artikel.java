@@ -12,6 +12,7 @@ import java.util.Set;
 @Table(name="artikels")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "soort")
+@NamedEntityGraph(name = Artikel.MET_ARTIKELGROEP, attributeNodes = @NamedAttributeNode("artikelGroep"))
 public abstract class Artikel {
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id private long id;
     private String naam;
@@ -22,6 +23,7 @@ public abstract class Artikel {
     private Set<Korting> kortingSet;
     @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "artikelgroepId")
     private ArtikelGroep artikelGroep;
+    public static final String MET_ARTIKELGROEP = "Artikel.metArtikelGroep";
 
     public Artikel(String naam, BigDecimal aankoopprijs, BigDecimal verkoopprijs, ArtikelGroep artikelGroep) {
         this.naam = naam;

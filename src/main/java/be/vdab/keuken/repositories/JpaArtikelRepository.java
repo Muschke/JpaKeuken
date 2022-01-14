@@ -12,6 +12,7 @@ import java.util.Optional;
 public class JpaArtikelRepository implements ArtikelRepository{
     private final EntityManager manager;
 
+
     public JpaArtikelRepository(EntityManager manager) {
         this.manager = manager;
     }
@@ -26,9 +27,10 @@ public class JpaArtikelRepository implements ArtikelRepository{
     }
 
     @Override
-    public List<String> findArtikelByString(String string){
-        return manager.createQuery("select d.naam from Artikel d where d.naam like :string", String.class)
+    public List<Artikel> findArtikelByString(String string){
+        return manager.createNamedQuery("Artikel.findArtikelByString", Artikel.class)
                 .setParameter("string", '%' + string + '%')
+                .setHint("javax.persistence.loadgraph", manager.createEntityGraph(Artikel.MET_ARTIKELGROEP))
                 .getResultList();
     }
 
@@ -38,4 +40,6 @@ public class JpaArtikelRepository implements ArtikelRepository{
                 .setParameter("percentage", percentage)
                 .executeUpdate();
     }
+
+
 }

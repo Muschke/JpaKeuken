@@ -31,6 +31,7 @@ class JpaArtikelRepositoryTest extends AbstractTransactionalJUnit4SpringContextT
     private NonFoodArtikel nonFoodArtikel;
     private ArtikelGroep artikelGroep;
 
+
     @BeforeEach
     void beforeEach() {
         foodArtikel = new FoodArtikel("testFoodArtikel", BigDecimal.ONE, BigDecimal.TEN, 10, artikelGroep);
@@ -78,10 +79,16 @@ class JpaArtikelRepositoryTest extends AbstractTransactionalJUnit4SpringContextT
     @Test
     void findArtikelByString() {
         var woord = "pp";
-        assertThat(repository.findArtikelByString(woord))
+        var artikels = repository.findArtikelByString(woord);
+        entityManager.clear();
+        assertThat(artikels)
                 .hasSize(countRowsInTableWhere(ARTIKELS, "naam like '%pp%'"))
+                .extracting(Artikel::getNaam)
                 .allSatisfy(naam -> assertThat(naam).containsIgnoringCase(woord))
                 .isSortedAccordingTo(String::compareToIgnoreCase);
+        assertThat(artikels)
+                .extracting(Artikel::getArtikelGroep)
+                .extracting(ArtikelGroep::getNaam);
     }
 
     @Test

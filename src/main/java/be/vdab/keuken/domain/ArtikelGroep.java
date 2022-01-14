@@ -12,7 +12,7 @@ public class ArtikelGroep {
     @GeneratedValue(strategy = GenerationType.IDENTITY) @Id
     private long id;
     private String naam;
-    @OneToMany(mappedBy = "aartikelGroep") @OrderBy("naam")
+    @OneToMany(mappedBy = "artikelGroep") @OrderBy("naam")
     private Set<Artikel> artikelSet;
 
 
